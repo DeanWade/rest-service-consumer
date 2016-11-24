@@ -5,10 +5,12 @@ rest-service-consumer
 
 -Dserver.port=8080 -agentpath:"C:\Program Files\dynaTrace\dynaTrace 6.3\agent\lib64\dtagent.dll"=name=rest-service-consumer,server=localhost
 
-## web request
-Use none daemon thread for network data transimitting
-http://localhost:8080/consumer/greeting
+## URL
+Use none daemon thread for rest service network data transimitting
+**http://localhost:8080/consumer/greeting**
+![RestService-PurePath-Connected](https://deanwade.github.io/image/dynatrace/RestService-PurePath-Connected.png)
 
-Use daemon thread for network data transimitting
-http://localhost:8080/consumer/greeting?daemon=true
+Use daemon thread for rest service network data transimitting
+**http://localhost:8080/consumer/greeting?daemon=true**
+![RestService-PurePath-Disconnected](https://deanwade.github.io/image/dynatrace/RestService-PurePath-Disconnected.png)
 
