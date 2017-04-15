@@ -6,43 +6,27 @@ public class RestServiceInvoker {
 
 	private RestTemplate restTemplate;
 	
-	private boolean direct;
-	
 	private boolean daemon;
 	
 	private boolean async;
 	
 	public RestServiceInvoker(RestTemplate restTemplate) {
-		super();
 		this.restTemplate = restTemplate;
 	}
 	
 
 	public Greeting greet(){
-		if(this.direct){
-			return doGreet();
-		}
 		if(this.async){
-			WorkerThread worker = new WorkerThread(this.daemon, this.restTemplate);
+			WorkerThread worker = new WorkerThread(this);
 			return (Greeting) worker.sendAndWait();
 		}
 		return doGreet();
 	}
 	
-	private Greeting doGreet(){
-		String url = "http://localhost:8081/provider/greeting";
+	public Greeting doGreet(){
+		String url = "http://localhost:8090/provider/greeting";
 		Greeting greeting = restTemplate.getForObject(url, Greeting.class);
 		return greeting;
-	}
-
-
-	public boolean isDirect() {
-		return direct;
-	}
-
-
-	public void setDirect(boolean direct) {
-		this.direct = direct;
 	}
 
 

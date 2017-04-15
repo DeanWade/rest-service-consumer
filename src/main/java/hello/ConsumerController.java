@@ -8,19 +8,21 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 @RestController
-public class GreetingController {
+public class ConsumerController {
 
 	private final RestTemplate restTemplate;
 
-	public GreetingController(RestTemplate restTemplate) {
+	public ConsumerController(RestTemplate restTemplate) {
 		this.restTemplate = restTemplate;
 	}
 
 	@GetMapping("/consumer/greeting")
-	public Greeting greeting(@RequestParam(value = "name", defaultValue = "World") String name,
+	public Greeting greeting(
+			@RequestParam(value = "name", defaultValue = "World") String name,
+			@RequestParam(value = "async", defaultValue = "false") boolean async,
 			@RequestParam(value = "daemon", defaultValue = "false") boolean daemon) throws Exception {
 		RestServiceInvoker invoker = new RestServiceInvoker(restTemplate);
-		invoker.setAsync(true);
+		invoker.setAsync(async);
 		invoker.setDaemon(daemon);
 		return invoker.greet();
 	}

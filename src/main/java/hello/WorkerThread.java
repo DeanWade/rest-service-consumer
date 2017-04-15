@@ -1,22 +1,15 @@
 package hello;
 
-import org.springframework.web.client.RestTemplate;
-
 public class WorkerThread extends Thread{
 
-	private final Boolean daemon;
-
-	private final RestTemplate restTemplate;
+	private final RestServiceInvoker restServiceInvoker;
 	
 	private Object result;
 	
 	private final Object monitor = new Object();
 
-	public WorkerThread(Boolean daemon, RestTemplate restTemplate) {
-		super();
-		this.daemon = daemon;
-		this.restTemplate = restTemplate;
-		this.setDaemon(this.daemon);
+	public WorkerThread(RestServiceInvoker restServiceInvoker) {
+		this.restServiceInvoker = restServiceInvoker;
 	}
 
 	public Object sendAndWait() {
@@ -43,8 +36,10 @@ public class WorkerThread extends Thread{
 
 	@Override
 	public void run() {
-		Greeting greeting = restTemplate.getForObject("http://localhost:8081/provider/greeting", Greeting.class);
-		this.result = greeting;
-		notifyResult();
+		try{
+			this.result = restServiceInvoker.doGreet();
+		}finally{
+			notifyResult();
+		}
 	}
 }
