@@ -1,5 +1,6 @@
 package hello;
 
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,15 +21,34 @@ public class ConsumerController {
 	public Greeting greeting(
 			@RequestParam(value = "name", defaultValue = "World") String name,
 			@RequestParam(value = "async", defaultValue = "false") boolean async,
-			@RequestParam(value = "daemon", defaultValue = "false") boolean daemon) throws Exception {
+			@RequestParam(value = "daemon", defaultValue = "false") boolean daemon){
 		RestServiceInvoker invoker = new RestServiceInvoker(restTemplate);
 		invoker.setAsync(async);
 		invoker.setDaemon(daemon);
-		return invoker.greet();
+		invoker.setLock("sync");
+		return invoker.greeting();
 	}
 	
 	@PostMapping("/consumer/greeting")
-	public Greeting greet(@RequestBody Greeting greeting) throws Exception {
+	public Greeting greeting(@RequestBody Greeting greeting) {
 		return greeting;
 	}
+	
+	@GetMapping("/provider/greeting")
+	public Greeting greeting(
+    		@RequestParam(value="name", defaultValue="World") String name,
+    		@RequestParam(value="lock", defaultValue="lock") String lock) {
+		RestServiceInvoker invoker = new RestServiceInvoker(restTemplate);
+		invoker.setAsync(false);
+		invoker.setDaemon(false);
+		invoker.setLock("lock");
+		return invoker.greeting();
+	}
+	
+	@ExceptionHandler(Exception.class)
+	public Greeting onException(Exception e){
+		Greeting greeting = new Greeting(Long.MAX_VALUE, e.getMessage());
+		return greeting;
+	}
+	
 }

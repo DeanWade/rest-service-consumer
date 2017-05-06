@@ -9,9 +9,14 @@ public class Greeting {
     private String content;
     
     public Greeting(){
-    	
     }
     
+	public Greeting(Long id, String content) {
+		super();
+		this.id = id;
+		this.content = content;
+	}
+
 	public Long getId() {
 		return id;
 	}
