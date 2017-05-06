@@ -41,7 +41,7 @@ public class ConsumerController {
 		RestServiceInvoker invoker = new RestServiceInvoker(restTemplate);
 		invoker.setAsync(false);
 		invoker.setDaemon(false);
-		invoker.setLock("lock");
+		invoker.setLock(lock);
 		return invoker.greeting();
 	}
 	
