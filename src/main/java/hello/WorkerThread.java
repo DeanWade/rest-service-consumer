@@ -37,7 +37,7 @@ public class WorkerThread extends Thread{
 	@Override
 	public void run() {
 		try{
-			this.result = restServiceInvoker.doGreet();
+			this.result = restServiceInvoker.doGreeting();
 		}finally{
 			notifyResult();
 		}
