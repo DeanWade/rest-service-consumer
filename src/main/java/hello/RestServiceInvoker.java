@@ -1,5 +1,7 @@
 package hello;
 
+import java.util.Random;
+
 import org.springframework.web.client.RestTemplate;
 
 public class RestServiceInvoker {
@@ -16,6 +18,13 @@ public class RestServiceInvoker {
 		this.restTemplate = restTemplate;
 	}
 	
+	public Greeting randomUriPath() {
+		Random r = new Random();
+		int index = r.nextInt(10) + 1;
+		String url = "http://localhost:8090/provider/random/{index}";
+		Greeting greeting = restTemplate.getForObject(url, Greeting.class, index);
+		return greeting;
+	}
 
 	public Greeting greeting(){
 		if(this.async){
