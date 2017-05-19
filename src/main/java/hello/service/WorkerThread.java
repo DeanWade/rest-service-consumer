@@ -1,4 +1,4 @@
-package hello;
+package hello.service;
 
 public class WorkerThread extends Thread{
 

@@ -1,9 +1,11 @@
-package hello;
+package hello.remote;
 
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import hello.model.Greeting;
 
 @FeignClient(name = "rest-service-provider")
 public interface ProviderFeignClient {

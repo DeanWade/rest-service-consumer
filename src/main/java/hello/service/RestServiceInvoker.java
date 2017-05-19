@@ -1,6 +1,9 @@
-package hello;
+package hello.service;
 
 import java.util.Random;
+
+import hello.model.Greeting;
+import hello.remote.ProviderFeignClient;
 
 public class RestServiceInvoker {
 
